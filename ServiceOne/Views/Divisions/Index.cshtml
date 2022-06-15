@@ -1,0 +1,172 @@
+﻿@model IEnumerable<ServiceOne.Models.V_DIVISION>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Devisions</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Starter Page</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+<!-- Main content -->
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col col-lg-3">
+                @Html.Partial("_SideUserSettings")
+            </div>
+            <div class="col-lg-9">
+                <div class="card">
+                    <div class="card-header">
+                        <ul class="nav nav-tabs align-items-end card-header-tabs w-100">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="#">
+                                    <i class="fa fa-list mr-2"></i>Devisions List
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="javascript:;" data-toggle="modal" data-target="#modal-default" id="btn-create">
+                                    <i class="fa fa-plus mr-2"></i>Create New
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- /.card-header -->
+
+                    <div class="card-body">
+                        <table id="example1" class="table dataTable no-footer dtr-inline collapsed">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Company Id
+                                    </th>
+                                    <th>
+                                        Dept Name
+                                    </th>
+                                    <th>
+                                        Dev Id
+                                    </th>
+                                    <th>
+                                        Dev Name
+                                    </th>
+                                    <th>
+                                        Description
+                                    </th>
+                                    <th width="100px">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.company_id)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.department_name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.division_id)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.division_name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.description)
+                                    </td>
+                                    <td>
+                                        <a href="javascript:;" data-id="@item.id" data-toggle="modal" data-target="#modal-default" class="btn btn-link btn-edit"><i class="far fa-edit"></i></a>
+                                        <a href="javascript:;" data-id="@item.id" class="btn-delete text-danger"><i class="fa fa-trash-alt"></i></a>
+                                    </td>
+                                </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- /.col-md-2 -->
+
+        </div>
+        <!-- /.row -->
+
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content -->
+
+<script>
+        $(document).ready(function () {
+
+            $("#btn-create").click(function () {
+                $.ajax({
+                    type: "GET",
+                    url: "@Url.Action("Create", "Divisions")"
+                }).done(function (data) {
+                    //kondisi jika ajax berhasil dikerjakan
+                    //memasukan view dari controller ke modal
+                    $("#modal-default .modal-content").html(data);
+                }).fail(function (error) {
+                    //kondisi jika gagal
+                    alert(error.responseText);
+                });
+            });
+
+            //untuk Edit
+            $(".btn-edit").click(function () {
+                var id = $(this).data("id");
+                $.ajax({
+                    type: "GET",
+                    url: "@Url.Action("Edit", "Divisions")",
+                    data: { id: id }
+                }).done(function (data) {
+                    $("#modal-default .modal-content").html(data);
+                }).fail(function (error) {
+                    //kondisi jika gagal
+                    alert(error.responseText);
+                });
+            });
+        });
+
+        $(".btn-delete").click(function () {
+            var id = $(this).data("id");
+
+            swal({
+                title: "Delete Confirmation",
+                text: "Are you sure want to Delete?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Yes, Delete it!"
+            }).then(function (isConfirm) {
+                if (isConfirm.dismiss) {
+                    swal("Cancelled", "Delete Cancelled!", "info");
+                } else {
+                    $.ajax({
+                        type: "GET",
+                        url: "@Url.Action("Delete", "Divisions")",
+                        data: { id: id }
+                    }).done(function (data) {
+                        $("#modal-popup .modal-content").html(data);
+                        window.location.href = location.protocol + "//" + location.host + "@Url.Action("Index")"
+                    }).fail(function (error) {
+                        alert(error.responseText);
+                    });
+                }
+            });
+
+        });
+</script>

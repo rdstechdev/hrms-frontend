@@ -1,0 +1,81 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+
+<div class="login-box">
+    <!-- /.login-logo -->
+    <div class="card">
+        <div class="row">
+            <div class="col-4">
+                <div class="card-body">
+                    <div class="user-panel mt-4 pb-4 mb-4 d-flex justify-content-center">
+                        <div class="image">
+                            <img src="~/Content/dist/img/rds.png" class="img-circle elevation-2" alt="User Image">
+                        </div>
+                        <div class="info">
+                            <p class="d-block">Sign in to start your session</p>
+                        </div>
+                    </div>
+
+                    @using (Html.BeginForm("Login", "Auth", FormMethod.Post))
+                    {
+                        <div class="input-group mb-3">
+                            <input type="text" id="user_id" name="user_id" class="form-control" placeholder="User ID">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fa fa-envelope"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-group mb-3">
+                            <input type="password" id="password" name="password" class="form-control" placeholder="Password">
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fa fa-lock"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-8">
+                                <div class="icheck-primary">
+                                    <input type="checkbox" id="remember">
+                                    <label for="remember">
+                                        Remember Me
+                                    </label>
+                                </div>
+                            </div>
+                            <!-- /.col -->
+                            <div class="col-4">
+                                <button type="submit" class="btn btn-primary">Sign In</button>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                    }
+
+                    <br>
+                    <br>
+                    <p class="mb-1">
+                        <a href="forgot-password.html">I forgot my password</a>
+                    </p>
+                    <p class="mb-0">
+                        <a href="register.html" class="text-center">Register a new membership</a>
+                    </p>
+                </div>
+                <!-- /.login-card-body -->
+            </div>
+            <div class="col-8">
+                <div class="login--promo">
+                    <div class="login--promo-content">
+                        @*<h2 class="text--benton-bold">ERP System - Beta Version</h2>*@
+                        <h2 class="text--benton-bold">RDS  -  Service One 1.0.2</h2>
+                        <h3 class="text--benton-book">For research and internal use only</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- /.card- -->
+</div>
+<!-- /.login-box -->

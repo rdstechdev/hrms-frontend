@@ -1,0 +1,10 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutMetronic.cshtml";
+}
+
+@{
+    string username = Session["username"].ToString();
+}
+<h1 class="m-0 text-dark">Selamat Pagi @username</h1>

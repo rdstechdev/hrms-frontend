@@ -1,0 +1,93 @@
+﻿@model IEnumerable<ServiceOne.Models.EMAIL>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Email</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Starter Page</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+<!-- Main content -->
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col col-lg-3">
+                @Html.Partial("_SideEmail")
+            </div>
+            <div class="col-lg-9">
+                <div class="card">
+                    <div class="card-header">
+                        <ul class="nav nav-tabs align-items-end card-header-tabs w-100">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="#">
+                                    <i class="fas fa-cog mr-2"></i>Sent Items
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- /.card-header -->
+
+                    <div class="card-body">
+                        <table id="example1" class="table dataTable no-footer dtr-inline collapsed">
+                            <thead>
+                                <tr>
+                                    <th width="3%">#</th>
+                                    <th width="3%"></th>
+                                    <th width="3%"></th>
+                                    <th>Subject</th>
+                                    <th>Message</th>
+                                    <th>Status</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                <tr>
+                                    <td class="action"><input type="checkbox" /></td>
+                                    <td class="action"><i class="far fa-star"></i></td>
+                                    <td class="action"><i class="far fa-bookmark"></i></td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.mail_subject)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.message)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.mail_status)
+                                    </td>
+                                    <td>
+                                        <a href="@Url.Action("Edit", "Email", new {id = item.id})" class="btn btn-link text-primary"><i class="far fa-edit"></i></a>
+                                        <a class="btn btn-link text-danger deleteUser"><i class="fa fa-trash-alt"></i></a>
+                                    </td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- /.col-md-2 -->
+
+        </div>
+        <!-- /.row -->
+
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content -->
+

@@ -1,0 +1,84 @@
+﻿
+@model ServiceOne.ViewModels.PrintPdfViewModel
+
+@{
+    string format = "dd-MM-yyyy";
+    string d1 = DateTime.Parse(Model.surat.created_at.ToString()).ToString(format);
+    string templateHeader = Model.template.header;
+    templateHeader = templateHeader.Replace("#nomor", Model.surat.no_surat);
+    templateHeader = templateHeader.Replace("#penerima", Model.surat.penerima);
+    templateHeader = templateHeader.Replace("#pengirim", Model.surat.pengirim);
+    templateHeader = templateHeader.Replace("#tanggal", d1);
+    templateHeader = templateHeader.Replace("#tipe_surat", Model.surat.tipe_surat);
+    templateHeader = templateHeader.Replace("#lampiran", "-");
+
+    string templateFooter = Model.template.footer;
+    templateFooter = templateFooter.Replace("#tanggal", d1);
+    templateFooter = templateFooter.Replace("#Tembusan", Model.surat.tembusan);
+}
+<style>
+    modal-body {
+        background: rgb(204,204,204);
+    }
+    page {
+        background: white;
+        display: block;
+        margin: 0 auto;
+        margin-bottom: 0.5cm;
+        box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
+    }
+
+        page[size="A4"] {
+            /*size: 7in 9.25in;*/
+            width: 21cm;
+            height: 29.7cm;
+            padding: 27mm 16mm 27mm 16mm;
+        }
+        page[size="A4"][layout="portrait"] {
+            width: 29.7cm;
+            height: 21cm;
+        }
+        page[size="A3"] {
+            width: 29.7cm;
+            height: 42cm;
+        }     
+        page[size="A3"][layout="landscape"] {
+            width: 42cm;
+            height: 29.7cm;
+        }
+        page[size="A5"] {
+            width: 14.8cm;
+            height: 21cm;
+        }
+        page[size="A5"][layout="landscape"] {
+            width: 21cm;
+            height: 14.8cm;
+        }
+    @@media print {
+        body, page {
+            margin: 0;
+            box-shadow: 0;
+        }
+    }
+
+    div.chapter, div.appendix {
+        page-break-after: always;
+    }
+
+    div.titlepage {
+        page: blank;
+    }
+</style>
+@*<page size="A4">
+    <div>@Html.Raw(templateHeader)</div>
+    <p>@Html.Raw(Model.surat.body_surat)</p>
+    <p style="page-break-after: auto;"></p>
+    <p>@Html.Raw(templateFooter)</p>
+</page>*@
+
+<div >
+    <div>@Html.Raw(templateHeader)</div>
+    <p>@Html.Raw(Model.surat.body_surat)</p>
+    
+    <p>@Html.Raw(templateFooter)</p>
+</div>

@@ -1,0 +1,53 @@
+﻿@model ServiceOne.ViewModels.PrintPdfViewModel
+@{
+    string format = "dd-MM-yyyy";
+    string d1 = DateTime.Parse(Model.surat.created_at.ToString()).ToString(format);
+    string templateHeader = Model.template.header;
+    templateHeader = templateHeader.Replace("#nomor", Model.surat.no_surat);
+    templateHeader = templateHeader.Replace("#penerima", Model.surat.penerima);
+    templateHeader = templateHeader.Replace("#pengirim", Model.surat.pengirim);
+    templateHeader = templateHeader.Replace("#tanggal", d1);
+    templateHeader = templateHeader.Replace("#tipe_surat", Model.surat.tipe_surat);
+    templateHeader = templateHeader.Replace("#lampiran", Model.lampiran.ToString());
+
+    string templateFooter = Model.template.footer;
+    templateFooter = templateFooter.Replace("#tanggal", d1);
+    templateFooter = templateFooter.Replace("#Tembusan", Model.surat.tembusan);
+    templateFooter = templateFooter.Replace("#Approval1", Model.pengirim.upline_name);
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@Model.surat.no_surat</title>
+    <style>
+	@@media all {
+		.page-break	{
+			display: none;
+		}
+	}
+
+	@@media print {
+		.page-break	{
+			display: block;
+			page-break-before: always;
+		}
+	}
+    </style>
+</head>
+<body onload="window.print()">
+    <div>
+        <div>@Html.Raw(templateHeader)</div>
+        <div>@Html.Raw(Model.surat.body_surat)</div>
+
+        <div>@Html.Raw(templateFooter)</div>
+    </div>
+    
+</body>
+</html>
+<script type="text/javascript">
+    window.print();
+    window.onafterprint = window.close;
+    /*window.onfocus = function () { window.close(); }*/
+</script>

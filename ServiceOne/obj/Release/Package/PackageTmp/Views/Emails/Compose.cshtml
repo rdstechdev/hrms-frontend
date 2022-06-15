@@ -1,0 +1,127 @@
+﻿@model ServiceOne.Models.EMAIL
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Compose</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Starter Page</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+<!-- Main content -->
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col col-lg-2">
+                @Html.Partial("_SideEmail")
+            </div>
+            <div class="col-lg-10">
+                <div class="card">
+                    <div class="card-header">
+                        <ul class="nav nav-tabs align-items-end card-header-tabs w-100">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="#">
+                                    <i class="fas fa-cog mr-2"></i>Mail
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- /.card-header -->
+
+                    <div class="card-body">
+                        @using (Html.BeginForm("Compose", "Emails", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form" }))
+                        {
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            
+                        <div class="col-sm-12">
+                            <div class="form-group row">
+                                <label for="mail_to" class="col-sm-1 col-form-label">To</label>
+                                <div class="col-11">
+                                    @Html.EditorFor(model => model.mail_to, new { htmlAttributes = new { @class = "form-control", autocomplete = "off" } })
+                                    <div class="form-text text-muted">
+                                        @Html.ValidationMessageFor(model => model.mail_to, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="mail_cc" class="col-sm-1 col-form-label">Cc</label>
+                                <div class="col-11">
+                                    @Html.EditorFor(model => model.mail_cc, new { htmlAttributes = new { @class = "form-control", autocomplete = "off" } })
+                                    <div class="form-text text-muted">
+                                        @Html.ValidationMessageFor(model => model.mail_cc, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            @*<div class="form-group row">
+                                <label for="mail_bcc" class="col-sm-1 col-form-label">Bcc</label>
+                                <div class="col-11">
+                                    @Html.EditorFor(model => model.mail_bcc, new { htmlAttributes = new { @class = "form-control", autocomplete = "off" } })
+                                    <div class="form-text text-muted">
+                                        @Html.ValidationMessageFor(model => model.mail_bcc, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>*@
+
+                            <div class="form-group row">
+                                <label for="mail_subject" class="col-sm-1 col-form-label">Subject</label>
+                                <div class="col-11">
+                                    @Html.EditorFor(model => model.mail_subject, new { htmlAttributes = new { @class = "form-control", autocomplete = "off" } })
+                                    <div class="form-text text-muted">
+                                        @Html.ValidationMessageFor(model => model.mail_subject, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <textarea id="summernote" name="message">
+                                Place <em>some</em> <u>text</u> <strong>here</strong>
+                            </textarea>
+                        </div>
+
+                            <hr />
+                            <div class="form-group col-12 text-right">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-paper-plane"></i>
+                                    Sent
+                                </button>
+                                <a asp-controller="Users" asp-action="Index" class="btn btn-default"><i class="fa fa-undo"></i> Cancel</a>
+                            </div>
+                        }
+
+
+                    </div>
+                </div>
+            </div>
+            <!-- /.col-md-2 -->
+
+        </div>
+        <!-- /.row -->
+
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content -->
+<script>
+  $(function () {
+    // Summernote
+      $('#summernote').summernote({ height: 150})
+
+    // CodeMirror
+    CodeMirror.fromTextArea(document.getElementById("codeMirrorDemo"), {
+      mode: "htmlmixed",
+      theme: "monokai"
+    });
+  })
+</script>

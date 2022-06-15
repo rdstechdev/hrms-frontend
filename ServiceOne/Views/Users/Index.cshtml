@@ -1,0 +1,139 @@
+﻿@model IEnumerable<ServiceOne.Models.V_USER>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Users</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Starter Page</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+<!-- Main content -->
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col col-lg-3">
+                @Html.Partial("_SideUserSettings")
+            </div>
+            <div class="col-lg-9">
+                <div class="card">
+                    <div class="card-header">
+                        <ul class="nav nav-tabs align-items-end card-header-tabs w-100">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="#">
+                                    <i class="fa fa-list mr-2"></i>User List
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Create", "Users")">
+                                    <i class="fa fa-plus mr-2"></i>Create New
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- /.card-header -->
+
+                    <div class="card-body">
+                        <table id="example1" class="table dataTable no-footer dtr-inline collapsed">
+                            <thead>
+                                <tr>
+                                    <th>Avatar</th>
+                                    <th>Username</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Status</th>
+                                    <th width="100px">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td class="sorting_1" tabindex="0"><img class="img-circle elevation-2" style="width:50px" src="~/Content/dist/img/image_default.png" alt="image_default"></td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.username)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.email)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.role)
+                                        </td>
+                                        <td>
+                                            @if (item.status == 0)
+                                            {
+                                                <div>Inactive</div>
+                                            }
+                                            else if (item.status == 1)
+                                            {
+                                                <div>Active</div>
+                                            }
+                                            else if (item.status == 2)
+                                            {
+                                                <div>Delete</div>
+                                            }
+                                        </td>
+                                        <td>
+                                            <a href="@Url.Action("Edit", "Users", new {id = item.id})" class="btn btn-link text-primary"><i class="far fa-edit"></i></a>
+                                            <a class="btn btn-link text-danger deleteUser"><i class="fa fa-trash-alt"></i></a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- /.col-md-2 -->
+
+        </div>
+        <!-- /.row -->
+
+        <div class="modal fade" id="modal-delete">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Delete File</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form method="post" asp-controller="S3Object" asp-action="Delete">
+                        <div class="modal-body">
+                            <input type="hidden" name="id" />
+                            <input type="text" id="deletekey" name="deletekey" value="" />
+                            <h5>Are you sure?</h5>
+                            <p>Do you really want to delete these records? This process cannot be undone.</p>
+                        </div>
+                        <div class="modal-footer justify-content-between">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content -->
+
+<script src="~/Content/"></script>
+<link rel="stylesheet" href="~/Content/plugins/sweetalert2/sweetalert2.min.css">

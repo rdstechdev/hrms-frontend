@@ -1,0 +1,71 @@
+﻿@model ServiceOne.ViewModels.CustomFields
+
+@using (Html.BeginForm("CustomFields", "Users", FormMethod.Post, new { @class = "form" }))
+{
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.id)
+    @Html.HiddenFor(model => model.user_id)
+    <div class="row">
+        <p class="col-12 pb-4">Custom Field</p>
+        <div class="col-sm-6">
+            <div class="form-group row">
+                <label for="username" class="col-4 control-label text-right">Join at</label>
+                <div class="col-8">
+                    @Html.EditorFor(model => model.join_at, new { htmlAttributes = new { @class = "form-control", @type = "text" } })
+                    <div class="form-text text-muted">
+                        @Html.ValidationMessageFor(model => model.join_at, "", new { @class = "text-danger" })
+                        Insert Address
+                    </div>
+                    @*<input type="text" name="join_at" class="form-control datetimepicker-input" data-target="#reservationdate" />
+                    <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>*@
+                </div>
+            </div>
+            
+            <div class="form-group row">
+                <label for="email" class="col-4 control-label text-right">Expiry</label>
+                <div class="col-8">
+                    @Html.EditorFor(model => model.expired_at, new { htmlAttributes = new { @class = "form-control" } })
+                    <div class="form-text text-muted">
+                        @Html.ValidationMessageFor(model => model.expired_at, "", new { @class = "text-danger" })
+                        Insert Expiry
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <div class="form-group row">
+                <label for="username" class="col-4 control-label text-right">Invalid Login</label>
+                <div class="col-8">
+                    @Html.EditorFor(model => model.invalid_login, new { htmlAttributes = new { @class = "form-control" } })
+                    <div class="form-text text-muted">
+                        @Html.ValidationMessageFor(model => model.invalid_login, "", new { @class = "text-danger" })
+                        Insert Invalid Login
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="email" class="col-4 control-label text-right">Status</label>
+                <div class="col-8">
+                    @Html.EditorFor(model => model.status, new { htmlAttributes = new { @class = "form-control" } })
+                    <div class="form-text text-muted">
+                        @Html.ValidationMessageFor(model => model.status, "", new { @class = "text-danger" })
+                        Insert status
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="form-group col-12 text-right">
+        <button type="submit" class="btn btn-primary">
+            <i class="fa fa-save"></i>
+            Save
+        </button>
+        @*<a asp-controller="MasterUsers" asp-action="Index" class="btn btn-default"><i class="fa fa-undo"></i> Cancel</a>*@
+    </div>
+}

@@ -1,0 +1,605 @@
+﻿@model ServiceOne.Models.SURAT
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutSurat.cshtml";
+}
+
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Edit Surat : @Model.no_surat</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Starter Page</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+<!-- Main content -->
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <ul class="nav nav-tabs align-items-end card-header-tabs w-100">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="@Url.Action("Index", "SuratKeluar")">
+                                    <i class="far fa-envelope mr-2"></i>Surat Masuk
+                                </a>
+                            </li>
+                            
+                        </ul>
+                    </div>
+                    <!-- /.card-header -->
+
+                    <div class="card-body">
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group row">
+                                    <label for="mail_to" class="col-sm-4 col-form-label">Jenis Surat</label>
+                                    <div class="col-8">
+                                        @Html.DropDownList("kode_surat", (IEnumerable<SelectListItem>)ViewBag.Templates, new { kode_surat = "Value", @class = "form-control", @disabled = "disabled" })
+                                        <div class="form-text text-muted">
+                                            @Html.ValidationMessageFor(model => model.kode_surat, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group row">
+                                    <label for="tipe_surat" class="col-sm-2 col-form-label">Tipe Surat</label>
+                                    <div class="col-10">
+                                        @Html.DropDownList("tipe_surat", (IEnumerable<SelectListItem>)ViewBag.Tipe, new { tipe_surat = "Value", @class = "form-control", @disabled = "disabled" })
+                                        <div class="form-text text-muted">
+                                            @Html.ValidationMessageFor(model => model.tipe_surat, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="mail_cc" class="col-sm-2 col-form-label">Pengirim</label>
+                            <div class="col-10">
+                                <div class="select2-primary">
+                                    <select class="select2" name="list_pengirim" multiple="multiple" data-placeholder="Select a State" data-dropdown-css-class="select2-purple" style="width: 100%;" disabled>
+
+                                        @foreach (var item in ViewBag.ListPengirim)
+                                        {
+                                            if (item.Selected == true)
+                                            {
+                                                <option value="@item.Value" selected="selected">@item.Text</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@item.Value">@item.Text</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                                <div class="form-text text-muted">
+                                    @Html.ValidationMessageFor(model => model.pengirim, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="mail_to" class="col-sm-2 col-form-label">Penerima</label>
+                            <div class="col-10">
+                                <div class="select2-primary">
+                                    <select class="select2" name="list_penerima" onchange="removeduplicat();" multiple="multiple" data-placeholder="Select a State" data-dropdown-css-class="select2-purple" style="width: 100%;" disabled>
+
+                                        @foreach (var item in ViewBag.ListPenerima)
+                                        {
+                                            if (item.Selected == true)
+                                            {
+                                                <option value="@item.Value" selected="selected">@item.Text</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@item.Value">@item.Text</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                                @*@Html.EditorFor(model => model.penerima, new { htmlAttributes = new { @class = "form-control" } })*@
+                                <div class="form-text text-muted">
+                                    @Html.ValidationMessageFor(model => model.penerima, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group row">
+                            <label for="mail_subject" class="col-sm-2 col-form-label">Perihal</label>
+                            <div class="col-10">
+                                @Html.EditorFor(model => model.perihal, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                                <div class="form-text text-muted">
+                                    @Html.ValidationMessageFor(model => model.perihal, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="tembusan" class="col-sm-2 col-form-label">Tembusan</label>
+                            <div class="col-10">
+                                @Html.TextAreaFor(model => model.tembusan, new { @class = "form-control", @rows = "3", @disabled = "disabled" })
+                                <div class="form-text text-muted">
+                                    @Html.ValidationMessageFor(model => model.tembusan, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <nav class="w-100">
+                            <div class="nav nav-tabs" id="product-tab" role="tablist">
+                                <a class="nav-item nav-link active" id="product-desc-tab" data-toggle="tab" href="#product-desc" role="tab" aria-controls="product-desc" aria-selected="true">Body Surat</a>
+                                <a class="nav-item nav-link" id="product-comments-tab" data-toggle="tab" href="#product-comments" role="tab" aria-controls="product-comments" aria-selected="false">Lampiran</a>
+                                <a class="nav-item nav-link" id="product-rating-tab" data-toggle="tab" href="#product-rating" role="tab" aria-controls="product-rating" aria-selected="false">Status</a>
+                            </div>
+                        </nav>
+                        <div class="tab-content p-3" id="nav-tabContent">
+                            <div class="tab-pane fade show active" id="product-desc" role="tabpanel" aria-labelledby="product-desc-tab">
+                                <label for="body_surat" class="col-sm-2 col-form-label">Body Surat</label>
+                                @Html.TextAreaFor(m => m.body_surat, new { @class = "form-control", @id = "summernote" })
+                            </div>
+                            <div class="tab-pane fade" id="product-comments" role="tabpanel" aria-labelledby="product-comments-tab">
+
+                                <!-- File LIST -->
+                                <div class="card col-md-6">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Recently Added Products</h3>
+
+                                        <div class="card-tools">
+                                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                                <i class="fas fa-minus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <!-- /.card-header -->
+                                    <div class="card-body p-0">
+                                        <ul class="products-list product-list-in-card pl-2 pr-2">
+                                            @foreach (var item in ViewBag.lampiran)
+                                            {
+                                                <li class="item">
+                                                    <div class="product-img">
+                                                        @*<img src="dist/img/default-150x150.png" alt="Product Image" class="img-size-50">*@
+
+                                                        @{
+                                                                string extension = Path.GetExtension(item.nama_file);
+                                                                string urlFile = "http://localhost:65056/UploadedFiles/" + item.batch_no + "/" + item.nama_file;
+                                                                switch (extension.ToLower())
+                                                                {
+                                                                    case ".docx":
+                                                                    <i class="far fa-fw fa-file-word text-primary img-size-50"></i>
+                                                                    break;
+                                                                case ".xlsx":
+                                                                    <i class="far fa-fw fa-file-excel text-success img-size-50"></i>
+                                                                    break;
+                                                                case ".pdf":
+                                                                    <i class="far fa-fw fa-file-pdf text-danger img-size-50"></i>
+
+                                                                    break;
+                                                                default:
+                                                                    <i class="far fa-fw fa-file-image text-default img-size-50"></i>
+                                                                    break;
+                                                            }
+                                                        }
+                                                    </div>
+
+                                                    <div class="product-info">
+
+                                                        <a href="@urlFile" target="_blank" data-id="@item.id" class="btn-download product-title">
+                                                            @item.nama_file
+                                                            <span class="badge badge-success float-right">Download</span>
+                                                        </a>
+
+                                                    </div>
+                                                </li>
+                                            }
+                                        </ul>
+                                    </div>
+                                    <!-- /.card-body -->
+                                    <div class="card-footer text-center">
+                                        @*<a href="javascript:void(0)" class="uppercase">View All Products</a>*@
+                                    </div>
+                                    <!-- /.card-footer -->
+                                </div>
+                                <!-- /.card -->
+                            </div>
+
+                            <div class="tab-pane fade" id="product-rating" role="tabpanel" aria-labelledby="product-rating-tab">
+
+                                @*https://csshint.com/horizontal-timeline-css/*@
+
+                                <!-- File LIST -->
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Timeline</h3>
+
+                                        <div class="card-tools">
+                                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                                <i class="fas fa-minus"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <!-- /.card-header -->
+                                    <div class="card-body p-0">
+                                        <div class="Timeline">
+                                            <div class="now" style="margin-left:50px">
+                                                Start
+                                            </div>
+                                            <svg height="5" width="200">
+                                                <line x1="0" y1="0" x2="200" y2="0" style="stroke:#004165;stroke-width:5" />
+                                                Sorry, your browser does not support inline SVG.
+                                            </svg>
+                                            @foreach (var item in ViewBag.Flow)
+                                            {
+                                                <div class="event1">
+                                                    <div class="event1Bubble">
+                                                        <div class="eventTime">
+                                                            <div class="DayDigit">@item.day</div>
+                                                            <div class="Day">
+                                                                @item.day_name
+                                                                <div class="MonthYear">@item.month @item.year</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="eventTitle">@item.approved_status</div>
+                                                    </div>
+                                                    <div class="eventAuthor">@item.username</div>
+                                                    <svg height="20" width="20">
+                                                        <circle cx="10" cy="11" r="5" fill="#004165" />
+                                                    </svg>
+                                                    <div class="time">@item.time</div>
+
+                                                </div>
+
+                                                <svg height="5" width="250">
+                                                    <line x1="0" y1="0" x2="250" y2="0" style="stroke:#004165;stroke-width:5" />
+                                                    Sorry, your browser does not support inline SVG.
+                                                </svg>
+                                            }
+                                            <div class="now">
+                                                Finish
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /.card-body -->
+                                    <div class="card-footer text-center">
+                                        <a href="javascript:void(0)" class="uppercase">View All Products</a>
+                                    </div>
+                                    <!-- /.card-footer -->
+                                </div>
+                                <!-- /.card -->
+
+
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="col-md-12">
+                                <!-- DIRECT CHAT -->
+                                <div class="card direct-chat direct-chat-warning">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Direct Chat</h3>
+
+                                        <div class="card-tools">
+                                            <button type="button" class="btn btn-tool" title="Contacts" data-widget="chat-pane-toggle">
+                                                <i class="fas fa-comments"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                                <i class="fas fa-minus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <!-- /.card-header -->
+                                    <div class="card-body">
+                                        <!-- Conversations are loaded here -->
+                                        <div class="direct-chat-messages">
+                                            @{
+                                                string format = "dd MMM yyyy HH:mm:ss";
+                                                foreach (var item in ViewBag.Chats)
+                                                {
+                                                    string username = Session["username"].ToString();
+                                                    string created_at = DateTime.Parse(item.created_at.ToString()).ToString(format);
+                                                    if (item.username == username)
+                                                    {
+                                                        <!-- Message to the right -->
+                                                        <div class="direct-chat-msg right">
+                                                            <div class="direct-chat-infos clearfix">
+                                                                <span class="direct-chat-name float-right">@item.username</span>
+                                                                <span class="direct-chat-timestamp float-left">@created_at</span>
+                                                            </div>
+                                                            <!-- /.direct-chat-infos -->
+                                                            <img class="direct-chat-img" src="~/content/dist/img/image_default.png" alt="message user image">
+                                                            <!-- /.direct-chat-img -->
+                                                            <div class="direct-chat-text">
+                                                                @item.message
+                                                            </div>
+                                                            <!-- /.direct-chat-text -->
+                                                        </div>
+                                                        <!-- /.direct-chat-msg -->
+                                                    }
+                                                    else
+                                                    {
+                                                        <!-- Message. Default to the left -->
+                                                        <div class="direct-chat-msg">
+                                                            <div class="direct-chat-infos clearfix">
+                                                                <span class="direct-chat-name float-left">@item.username</span>
+                                                                <span class="direct-chat-timestamp float-right">@created_at</span>
+                                                            </div>
+                                                            <!-- /.direct-chat-infos -->
+                                                            <img class="direct-chat-img" src="~/content/dist/img/image_default.png" alt="message user image">
+                                                            <!-- /.direct-chat-img -->
+                                                            <div class="direct-chat-text">
+                                                                @item.message
+                                                            </div>
+                                                            <!-- /.direct-chat-text -->
+                                                        </div>
+                                                        <!-- /.direct-chat-msg -->
+                                                    }
+                                                }
+                                            }
+
+                                        </div>
+                                        <!--/.direct-chat-messages-->
+                                        <!-- Contacts are loaded here -->
+                                        <div class="direct-chat-contacts">
+                                            <ul class="contacts-list">
+                                                @{
+                                                    foreach (var item in ViewBag.Chats)
+                                                    {
+                                                        string username = Session["username"].ToString();
+                                                        string created_at = DateTime.Parse(item.created_at.ToString()).ToString(format);
+                                                        if (item.username == username)
+                                                        {
+                                                            <li>
+                                                                <a href="#">
+                                                                    <img class="contacts-list-img" src="~/content/dist/img/image_default.png" alt="User Avatar">
+
+                                                                    <div class="contacts-list-info">
+                                                                        <span class="contacts-list-name">
+                                                                            @item.username
+                                                                            <small class="contacts-list-date float-right">@created_at</small>
+                                                                        </span>
+                                                                        <span class="contacts-list-msg">@item.message</span>
+                                                                    </div>
+                                                                    <!-- /.contacts-list-info -->
+                                                                </a>
+                                                            </li>
+                                                            <!-- End Contact Item -->
+                                                        }
+                                                        else
+                                                        {
+                                                            <li>
+                                                                <a href="#">
+                                                                    <img class="contacts-list-img" src="~/content/dist/img/image_default.png" alt="User Avatar">
+
+                                                                    <div class="contacts-list-info">
+                                                                        <span class="contacts-list-name">
+                                                                            @item.username
+                                                                            <small class="contacts-list-date float-right">@created_at</small>
+                                                                        </span>
+                                                                        <span class="contacts-list-msg">@item.message</span>
+                                                                    </div>
+                                                                    <!-- /.contacts-list-info -->
+                                                                </a>
+                                                            </li>
+                                                            <!-- End Contact Item -->
+                                                        }
+                                                    }
+                                                }
+                                            </ul>
+                                            <!-- /.contacts-list -->
+                                        </div>
+                                        <!-- /.direct-chat-pane -->
+                                    </div>
+                                    <!-- /.card-body -->
+                                    <div class="card-footer">
+                                        @using (Html.BeginForm("CreateChat", "SuratMasuk", FormMethod.Post, new { @class = "form" }))
+                                        {
+                                            @Html.HiddenFor(model => model.id)
+                                            @Html.HiddenFor(model => model.batch_no)
+
+                                            if (Model.status != "Closed")
+                                            {
+                                                <div class="input-group">
+                                                    <input type="text" name="message" placeholder="Type Message ..." class="form-control">
+                                                    <span class="input-group-append">
+                                                        <button type="submit" class="btn btn-warning">Send</button>
+                                                    </span>
+                                                </div>
+                                            }
+
+                                        }
+                                    </div>
+                                    <!-- /.card-footer-->
+                                </div>
+                                <!--/.direct-chat -->
+                            </div>
+                            <!-- /.col -->
+                        </div>
+
+                        @using (Html.BeginForm("Edit", "SuratMasuk", FormMethod.Post, new { @class = "form" }))
+                        {
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @Html.HiddenFor(model => model.id)
+                            @Html.HiddenFor(model => model.batch_no)
+                            @Html.HiddenFor(model => model.no_surat)
+
+                            <div class="row no-print">
+                                <div class="col-12">
+                                    <a href="@Url.Action("Print", "SuratKeluar", new {id = @Model.id })" rel="noopener" target="_blank" class="btn btn-default"><i class="fas fa-print"></i> Print Preview</a>
+
+                                    <div class="float-right">
+                                        @if (Model.status != "Closed")
+                                        {
+                                            <a href="javascript:;" data-id="@Model.id" class="btn-revisi btn btn-info"><i class="fas fa-undo mr-2"></i>Revisi</a>
+                                            <a href="javascript:;" data-id="@Model.id" class="btn-approve btn btn-primary"><i class="fas fa-check mr-2"></i>Approve</a>
+                                        }
+
+                                        <a href="@Url.Action("Index", "SuratKeluar")" class="btn btn-default" style="margin-right: 5px;"><i class="fa fa-undo"></i> Cancel</a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <!-- /.col-md-2 -->
+
+        </div>
+        <!-- /.row -->
+
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content -->
+
+<div class="modal fade" id="modal-xl">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Preview @Model.no_surat</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <a href="@Url.Action("PrintPDF", "SuratKeluar", new {id = Model.id})" class="btn btn-primary"><i class="fas fa-print"></i> Print Pdf</a>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<script>
+    $(function () {
+        // Summernote
+        $('#summernote').summernote({
+            tabDisable: true,
+            toolbar: [
+                ['pagebreak', ['pagebreak']], // The Button
+                ['style', ['style']],
+                ['font', ['bold', 'italic', 'underline', 'clear']],
+                ['fontname', ['fontname']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['height', ['height']],
+                ['table', ['table']],
+                ['insert', ['media', 'link', 'hr']],
+                ['view', ['fullscreen', 'codeview']],
+                ['help', ['help']]
+            ],
+        })
+
+        // CodeMirror
+        CodeMirror.fromTextArea(document.getElementById("codeMirrorDemo"), {
+            mode: "htmlmixed",
+            theme: "monokai"
+        });
+
+
+    })
+</script>
+
+<script>
+    var selDiv = "";
+
+    document.addEventListener("DOMContentLoaded", init, false);
+
+    function init() {
+        document.querySelector('#files').addEventListener('change', handleFileSelect, false);
+        selDiv = document.querySelector("#selectedFiles");
+    }
+
+    function handleFileSelect(e) {
+
+        if (!e.target.files) return;
+
+        selDiv.innerHTML = "";
+
+        var files = e.target.files;
+        for (var i = 0; i < files.length; i++) {
+            var f = files[i];
+
+            selDiv.innerHTML += f.name + "<br/>";
+
+        }
+
+    }
+
+    
+
+    $(".btn-approve").click(function () {
+            var id = $(this).data("id");
+
+            swal({
+                title: "Sent Confirmation",
+                text: "Are you sure want to sent?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Yes, Sent it!"
+            }).then(function (isConfirm) {
+                if (isConfirm.dismiss) {
+                    swal("Cancelled", "Delete Cancelled!", "info");
+                } else {
+                    $.ajax({
+                        type: "GET",
+                        url: "@Url.Action("Approve", "SuratMasuk")",
+                        data: { id: id }
+                    }).done(function (data) {
+                        $("#modal-popup .modal-content").html(data);
+                        window.location.href = location.protocol + "//" + location.host + "@Url.Action("Index")";
+                    }).fail(function (error) {
+                        alert(error.responseText);
+                    });
+                }
+            });
+    });
+
+
+            $(".btn-preview").click(function () {
+                var id = $(this).data("id");
+                $.ajax({
+                    type: "GET",
+                    url: "@Url.Action("Preview", "SuratKeluar")",
+                    data: { id: id }
+                }).done(function (data) {
+                    $("#modal-xl .modal-body").html(data);
+                }).fail(function (error) {
+                    //kondisi jika gagal
+                    alert(error.responseText);
+                });
+            });
+
+        $(".btn-download").click(function () {
+                var id = $(this).data("id");
+                $.ajax({
+                    type: "GET",
+                    url: "@Url.Action("Download", "SuratMasuk")",
+                    data: { id: id }
+                }).done(function (data) {
+                    //$("#modal-xl .modal-body").html(data);
+                }).fail(function (error) {
+                    //kondisi jika gagal
+                    //alert(error.responseText);
+                });
+            });
+</script>

@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>S-One | Log in</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/Content/plugins/font-awesome/css/font-awesome.min.css">
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" href="~/Content/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/Content/dist/css/adminlte.css">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,400i,700" rel="stylesheet">
+    
+    <link rel="stylesheet" href="~/Content/dist/css/mdcustom.css">
+    <style>
+        .login-box, .register-box {
+            width: 100%;
+        }
+
+        .login--container {
+            box-shadow: 0 0 15px rgba(0,0,0,.1);
+        }
+
+        .login--form {
+            width: 100%;
+            float: left;
+        }
+
+        .login--promo {
+            display: none;
+            background: #FFCC00;
+        }
+
+            .login--promo h2 {
+                color: #fff;
+                font-size: 36px;
+                font-weight: bold;
+                line-height: 42px;
+                margin: 0;
+            }
+
+                .login--promo h2:first-child {
+                    margin-bottom: 0;
+                }
+
+            .login--promo h3 {
+                color: #fff;
+            }
+
+        @@media (min-width: 768px) {
+            .login--form {
+                width: 41.45%;
+            }
+
+            .login--promo {
+                /*background: url('https://mkt.tableau.com/images/idp/IDP-Asset-800X500@2x.jpg');*/
+                background: url('http://localhost:49999/Content/dist/img/IDP-Asset-800X500@2x.jpg');
+                background-repeat: no-repeat;
+                background-size: cover;
+                min-height: 472px;
+                display: flex;
+                flex-direction: column;
+                flex: 1;
+                flex-direction: column;
+                justify-content: center;
+            }
+
+            .login--promo-content {
+                padding: 140px 60px 140px 80px;
+            }
+        }
+
+        @@media (max-width: 640px) {
+            .login--form .grid--8 {
+                width: 80%;
+                margin: 0 auto;
+            }
+        }
+
+        .cardku {
+            box-shadow: 0 0 1px rgb(0 0 0 / 13%), 0 1px 3px rgb(0 0 0 / 20%);
+            /* margin-bottom: 1rem; */
+        }
+    </style>
+</head>
+<body class="hold-transition login-page">
+    <div>
+        @RenderBody()
+    </div>
+    <!-- jQuery -->
+    <script src="~/Content/plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="~/Content/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="~/Content/dist/js/adminlte.min.js"></script>
+</body>
+</html>

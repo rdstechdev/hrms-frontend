@@ -1,0 +1,183 @@
+﻿@model IEnumerable<ServiceOne.Models.V_SURAT>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutSurat.cshtml";
+}
+
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Surat Masuk</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Starter Page</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+<!-- Main content -->
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <ul class="nav nav-tabs align-items-end card-header-tabs w-100">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="#">
+                                    <i class="far fa-paper-plane mr-2"></i>Surat Masuk
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Create", "SuratKeluar")">
+                                    <i class="fas fa-plus mr-2"></i>Buat Surat
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- /.card-header -->
+
+                    <div class="card-body">
+                        
+                        <table id="example1" class="table dataTable no-footer dtr-inline collapsed table-responsive">
+                            <thead>
+                                <tr>
+                                    <th width="3%">#</th>
+                                    <th width="3%"></th>
+                                    <th width="3%"></th>
+                                    <th>No Surat</th>
+                                    <th>Jenis Surat</th>
+                                    <th>Perihal</th>
+                                    <th>Status</th>
+                                    <th>Tanggal</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="action"><input type="checkbox" /></td>
+                                    <td class="action">
+                                        @if (true)
+                                        {
+                                            <i class="far fa-star text-warning"></i>
+                                        }
+                                        else
+                                        {
+                                            <i class="far fa-star"></i>
+                                        }
+                                    </td>
+                                    <td class="action"><i class="far fa-bookmark"></i></td>
+                                    <td>
+                                        <form class="form-inline">
+                                            <div class="input-group input-group-sm">
+                                                <input class="form-control " type="search" placeholder="Search" aria-label="Search">
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-default" type="submit">
+                                                        <i class="fas fa-search"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <form class="form-inline">
+                                            <div class="input-group input-group-sm">
+                                                <input class="form-control " type="search" placeholder="Search" aria-label="Search">
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-default" type="submit">
+                                                        <i class="fas fa-search"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <form class="form-inline">
+                                            <div class="input-group input-group-sm">
+                                                <input class="form-control " type="search" placeholder="Search" aria-label="Search">
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-default" type="submit">
+                                                        <i class="fas fa-search"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <form class="form-inline">
+                                            <div class="input-group input-group-sm">
+                                                <input class="form-control " type="search" placeholder="Search" aria-label="Search">
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-default" type="submit">
+                                                        <i class="fas fa-search"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <form class="form-inline">
+                                            <div class="input-group input-group-sm">
+                                                <input class="form-control " type="search" placeholder="Search" aria-label="Search">
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-default" type="submit">
+                                                        <i class="fas fa-search"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </td>
+                                </tr>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td class="action"><input type="checkbox" /></td>
+                                        <td class="action">
+                                            @if (true)
+                                            {
+                                                <i class="far fa-star text-warning"></i>
+                                            }
+                                            else
+                                            {
+                                                <i class="far fa-star"></i>
+                                            }
+                                        </td>
+                                        <td class="action"><i class="far fa-bookmark"></i></td>
+                                        <td>
+                                            <a href="@Url.Action("Edit", "SuratMasuk", new {id = item.id})">@item.no_surat</a>
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.jenis_surat)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.perihal)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.status)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.created_at)
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- /.col-md-2 -->
+
+        </div>
+        <!-- /.row -->
+
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content -->

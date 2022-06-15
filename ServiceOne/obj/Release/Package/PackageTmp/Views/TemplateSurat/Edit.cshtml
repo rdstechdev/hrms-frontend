@@ -1,0 +1,297 @@
+﻿
+@model ServiceOne.Models.TEMPLATE_SURAT
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutSurat.cshtml";
+}
+
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Edit Template : @Model.jenis_surat</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Starter Page</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+<!-- Main content -->
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <ul class="nav nav-tabs align-items-end card-header-tabs w-100">
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Index", "SuratKeluar")">
+                                    <i class="far fa-paper-plane mr-2"></i>Surat Keluar
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" href="#">
+                                    <i class="fas fa-cog mr-2"></i>Edit Surat
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- /.card-header -->
+
+                    <div class="card-body">
+                        @using (Html.BeginForm("Edit", "TemplateSurat", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form" }))
+                        {
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @Html.HiddenFor(model => model.id)
+                            @*<div class="row">
+                <div class="col-sm-6">
+
+                </div>
+                <div class="col-sm-6">
+
+                </div>
+            </div>*@
+
+                            <div class="form-group row">
+                                <label for="kode_surat" class="col-sm-2 col-form-label">Kode Surat</label>
+                                <div class="col-4">
+                                    @Html.EditorFor(model => model.kode_surat, new { htmlAttributes = new { @class = "form-control" } })
+                                    <div class="form-text text-muted">
+                                        @Html.ValidationMessageFor(model => model.kode_surat, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="jenis_surat" class="col-sm-2 col-form-label">Jenis Surat</label>
+                                <div class="col-4">
+                                    @Html.EditorFor(model => model.jenis_surat, new { htmlAttributes = new { @class = "form-control" } })
+                                    <div class="form-text text-muted">
+                                        @Html.ValidationMessageFor(model => model.jenis_surat, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="header" class="col-sm-2 col-form-label">Header</label>
+                                <div class="col-10">
+                                    @Html.TextAreaFor(m => m.header, new { @class = "form-control" , @rows = 20 })
+                                    
+                                    <div class="form-text text-muted">
+                                        @Html.ValidationMessageFor(model => model.header, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="footer" class="col-sm-2 col-form-label">Footer</label>
+                                <div class="col-10">
+                                    @Html.TextAreaFor(m => m.footer, new { @class = "form-control", @rows = 10 })
+                                    
+                                    <div class="form-text text-muted">
+                                        @Html.ValidationMessageFor(model => model.footer, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="kode_surat" class="col-sm-2 col-form-label">Status</label>
+                                <div class="col-10">
+                                    @Html.DropDownList("status", (IEnumerable<SelectListItem>)ViewBag.Status, new { status = "Value", @class = "form-control" })
+                                    <div class="form-text text-muted">
+                                        @Html.ValidationMessageFor(model => model.status, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr />
+
+                            <div class="row no-print">
+                                <div class="col-12">
+                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-xl">
+                                        <i class="fas fa-print"></i> Preview
+                                    </button>
+
+                                    <a href="@Url.Action("Index", "TemplateSurat")" class="btn btn-default float-right mr-2" style="margin-right: 5px;"><i class="fa fa-undo"></i> Cancel</a>
+                                    <button type="submit" class="btn btn-success float-right">
+                                        <i class="fas fa-save"></i>
+                                        Save
+                                    </button>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <!-- /.col-md-2 -->
+
+        </div>
+        <!-- /.row -->
+
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content -->
+
+<div class="modal fade" id="modal-xl">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Preview @Model.kode_surat</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <iframe srcdoc="<html><body>@Model.header</body></html>" width="100%" height="500px">
+                </iframe>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <a href="@Url.Action("PrintPDF", "", new {id = Model.id})" class="btn btn-primary"><i class="fas fa-print"></i> Print Pdf</a>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<script>
+    $(function () {
+        // Summernote
+        //$('#summernote_header').summernote({
+        //    height: 200,
+        //    tabDisable: true,
+        //    fontSizes: ['8', '9', '10', '11', '12', '14', '18', '24', '36', '48', '64', '82', '150'],
+        //    toolbar: [
+        //        ['pagebreak', ['pagebreak']], // The Button
+        //        ['style', ['style']],
+        //        ['font', ['bold', 'italic', 'underline', 'clear']],
+        //        ['fontname', ['fontname']],
+        //        ['fontsize', ['fontsize']],
+        //        ['color', ['color']],
+        //        ['para', ['ul', 'ol', 'paragraph']],
+        //        ['height', ['height']],
+        //        ['table', ['table']],
+        //        ['insert', ['media', 'link', 'hr']],
+        //        ['view', ['fullscreen', 'codeview']],
+        //        ['help', ['help']],
+        //        ['undo', ['undo']],
+        //        ['redo', ['redo']]
+        //    ],
+        //})
+        //$('#summernote_footer').summernote({
+        //    height: 200,
+        //    tabDisable: true,
+        //    fontSizes: ['8', '9', '10', '11', '12', '14', '18', '24', '36', '48', '64', '82', '150'],
+        //    toolbar: [
+        //        ['pagebreak', ['pagebreak']], // The Button
+        //        ['style', ['style']],
+        //        ['font', ['bold', 'italic', 'underline', 'clear']],
+        //        ['fontname', ['fontname']],
+        //        ['fontsize', ['fontsize']],
+        //        ['color', ['color']],
+        //        ['para', ['ul', 'ol', 'paragraph']],
+        //        ['height', ['height']],
+        //        ['table', ['table']],
+        //        ['insert', ['media', 'link', 'hr']],
+        //        ['view', ['fullscreen', 'codeview']],
+        //        ['help', ['help']],
+        //        ['undo', ['undo']],
+        //        ['redo', ['redo']]
+        //    ],
+        //})
+
+        //// CodeMirror
+        //CodeMirror.fromTextArea(document.getElementById("codeMirrorDemo"), {
+        //    mode: "htmlmixed",
+        //    theme: "monokai"
+        //});
+    })
+</script>
+
+<script>
+    var selDiv = "";
+
+    document.addEventListener("DOMContentLoaded", init, false);
+
+    function init() {
+        document.querySelector('#files').addEventListener('change', handleFileSelect, false);
+        selDiv = document.querySelector("#selectedFiles");
+    }
+
+    function handleFileSelect(e) {
+
+        if (!e.target.files) return;
+
+        selDiv.innerHTML = "";
+
+        var files = e.target.files;
+        for (var i = 0; i < files.length; i++) {
+            var f = files[i];
+
+            selDiv.innerHTML += f.name + "<br/>";
+
+        }
+
+    }
+
+    $(".btn-delete").click(function () {
+            var id = $(this).data("id");
+
+            swal({
+                title: "Delete Confirmation",
+                text: "Are you sure want to Delete?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Yes, Delete it!"
+            }).then(function (isConfirm) {
+                if (isConfirm.dismiss) {
+                    swal("Cancelled", "Delete Cancelled!", "info");
+                } else {
+                    $.ajax({
+                        type: "GET",
+                        url: "@Url.Action("DeleteFile", "SuratKeluar")",
+                        data: { id: id }
+                    }).done(function (data) {
+                        $("#modal-popup .modal-content").html(data);
+                        window.location.href = location.protocol + "//" + location.host + "@Url.Action("Edit")?id=" + id;
+                    }).fail(function (error) {
+                        alert(error.responseText);
+                    });
+                }
+            });
+    });
+
+    $(".btn-sent").click(function () {
+            var id = $(this).data("id");
+
+            swal({
+                title: "Sent Confirmation",
+                text: "Are you sure want to sent?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Yes, Sent it!"
+            }).then(function (isConfirm) {
+                if (isConfirm.dismiss) {
+                    swal("Cancelled", "Delete Cancelled!", "info");
+                } else {
+                    $.ajax({
+                        type: "GET",
+                        url: "@Url.Action("Sent", "SuratKeluar")",
+                        data: { id: id }
+                    }).done(function (data) {
+                        $("#modal-popup .modal-content").html(data);
+                        window.location.href = location.protocol + "//" + location.host + "@Url.Action("Index")";
+                    }).fail(function (error) {
+                        alert(error.responseText);
+                    });
+                }
+            });
+        });
+</script>

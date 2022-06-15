@@ -1,0 +1,210 @@
+﻿
+@using Newtonsoft.Json
+@using ServiceOne.Models
+
+<!-- Main Sidebar Container -->
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="~/Home" class="brand-link">
+        <img src="~/Content/dist/img/rds.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+             style="opacity: .8">
+        <span class="brand-text font-weight-light">RDS</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <!-- Sidebar user panel (optional) -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image">
+                <img src="~/Content/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+            </div>
+            <div class="info">
+                @{
+                    string username = Session["username"].ToString();
+                }
+                <a href="#" class="d-block">@username</a>
+            </div>
+        </div>
+
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+            <ul id="menu" class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <!-- Add icons to the links using the .nav-icon class
+    with font-awesome or any other icon font library -->
+
+                @{
+                    string session_menu = Session["menu"].ToString();
+                    if (session_menu != null)
+                    {
+                        string requested = Context.Request.Path.ToString();
+                        string[] arrayEndpoint = requested.Split('/');
+                        string action = arrayEndpoint[1];
+                        List<SP_MENU_Result> menus = new List<SP_MENU_Result>();
+                        menus = JsonConvert.DeserializeObject<List<SP_MENU_Result>>(session_menu);
+
+                        var menuOpen = menus.Where(m => m.site_url == action).FirstOrDefault();
+                        if (menuOpen == null)
+                        {
+                            <li class="nav-item has-treeview">
+                                <a href="~/Home" class="nav-link active">
+                                    <i class="nav-icon fas fa-home"></i>
+                                    <p>
+                                        Home
+                                        @* <i class="right fas fa-angle-left"></i>*@
+                                    </p>
+                                </a>
+                            </li>
+                            foreach (var item in menus)
+                            {
+                                if (item.parent == true)
+                                {
+                                    <li class="nav-item has-treeview">
+                                        <a href="~/Home" class="nav-link">
+                                            <i class="@item.icon"></i>
+                                            <p>
+                                                @item.menu_name
+                                                <i class="right fa fa-angle-left"></i>
+                                            </p>
+                                        </a>
+                                        <ul class="nav nav-treeview">
+                                            @{
+                                                var subMenu = menus.Where(m => m.parent_id == item.menu_id).ToList();
+                                                foreach (var subItem in subMenu)
+                                                {
+                                                    if (action == @subItem.site_url)
+                                                    {
+                                                        <li class="nav-item">
+                                                            <a class="sub-item nav-link active" asp-area="" href="@Url.Action("Index", subItem.site_url)">
+                                                                <i class="@subItem.icon"></i>
+                                                                <p >@subItem.menu_name</p>
+                                                            </a>
+                                                        </li>
+                                                    }
+                                                    else
+                                                    {
+                                                        <li class="nav-item">
+                                                            <a class="sub-item nav-link" asp-area="" href="@Url.Action("Index", subItem.site_url)">
+                                                                <i class="@subItem.icon"></i>
+                                                                <p>@subItem.menu_name</p>
+                                                            </a>
+                                                        </li>
+                                                    }
+                                                }
+                                            }
+                                        </ul>
+                                    </li>
+                                }
+                            }
+                        }
+                        else
+                        {
+                            <li class="nav-item has-treeview">
+                                <a href="~/Home" class="nav-link">
+                                    <i class="nav-icon fas fa-home"></i>
+                                    <p>
+                                        Home
+                                        @* <i class="right fas fa-angle-left"></i>*@
+                                    </p>
+                                </a>
+                            </li>
+                            foreach (var item in menus)
+                            {
+                                if (item.parent == true)
+                                {
+                                    if (menuOpen.parent_id == item.menu_id)
+                                    {
+                                        <li class="nav-item has-treeview menu-open">
+                                            <a href="~/Home" class="nav-link active">
+                                                <i class="@item.icon"></i>
+                                                <p>
+                                                    @item.menu_name
+                                                    <i class="right fa fa-angle-left"></i>
+                                                </p>
+                                            </a>
+                                            <ul class="nav nav-treeview">
+                                                @{
+                                                    var subMenu = menus.Where(m => m.parent_id == item.menu_id).ToList();
+                                                    foreach (var subItem in subMenu)
+                                                    {
+                                                        if (action == @subItem.site_url)
+                                                        {
+                                                            <li class="nav-item">
+                                                                <a class="sub-item nav-link active" asp-area="" href="@Url.Action("Index", subItem.site_url)">
+                                                                    <i class="@subItem.icon"></i>
+                                                                    <p>@subItem.menu_name</p>
+                                                                </a>
+                                                            </li>
+                                                        }
+                                                        else
+                                                        {
+                                                            <li class="nav-item">
+                                                                <a class="sub-item nav-link" asp-area="" href="@Url.Action("Index", subItem.site_url)">
+                                                                    <i class="@subItem.icon"></i>
+                                                                    <p>@subItem.menu_name</p>
+                                                                </a>
+                                                            </li>
+                                                        }
+                                                    }
+                                                }
+                                            </ul>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="nav-item has-treeview">
+                                            <a href="~/Home" class="nav-link">
+                                                <i class="@item.icon"></i>
+                                                <p>
+                                                    @item.menu_name
+                                                    <i class="right fa fa-angle-left"></i>
+                                                </p>
+                                            </a>
+                                            <ul class="nav nav-treeview">
+                                                @{
+                                                    var subMenu = menus.Where(m => m.parent_id == item.menu_id).ToList();
+                                                    foreach (var subItem in subMenu)
+                                                    {
+                                                        if (action == @subItem.site_url)
+                                                        {
+                                                            <li class="nav-item">
+                                                                <a class="sub-item nav-link active" asp-area="" href="@Url.Action("Index", subItem.site_url)">
+                                                                    <i class="@subItem.icon"></i>
+                                                                    <p>@subItem.menu_name</p>
+                                                                </a>
+                                                            </li>
+                                                        }
+                                                        else
+                                                        {
+                                                            <li class="nav-item">
+                                                                <a class="sub-item nav-link" asp-area="" href="@Url.Action("Index", subItem.site_url)">
+                                                                    <i class="@subItem.icon"></i>
+                                                                    <p>@subItem.menu_name</p>
+                                                                </a>
+                                                            </li>
+                                                        }
+                                                    }
+                                                }
+                                            </ul>
+                                        </li>
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                <li class="nav-item">
+                    <a href="@Url.Action("Index", "Auth")" class="nav-link">
+                        <i class="nav-icon fa fa-power-off text-danger"></i>
+                        <p>
+                            Log Out
+                        </p>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+</aside>
+

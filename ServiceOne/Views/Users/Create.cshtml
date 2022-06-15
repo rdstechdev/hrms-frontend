@@ -1,0 +1,147 @@
+﻿@model ServiceOne.Models.USER
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Create Users</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Starter Page</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+<!-- Main content -->
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col col-lg-3">
+                @Html.Partial("_SideUserSettings")
+            </div>
+            <div class="col-lg-9">
+                <div class="card">
+                    <div class="card-header">
+                        <ul class="nav nav-tabs align-items-end card-header-tabs w-100">
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Index", "Users")">
+                                    <i class="fa fa-list mr-2"></i>User List
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" href="#">
+                                    <i class="fa fa-plus mr-2"></i>Create New
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- /.card-header -->
+
+                    <div class="card-body">
+                        @using (Html.BeginForm("Create", "Users", FormMethod.Post, new { @class = "form", id = "create-edit-form" }))
+                        {
+                            <div class="row">
+                                <h5 class="col-12 pb-4">Main Fields</h5>
+                                <div class="col-sm-6">
+                                    <div class="form-group row">
+                                        <label for="user_id" class="col-4 control-label text-right">User Id</label>
+                                        <div class="col-8">
+                                            @Html.EditorFor(model => model.user_id, new { htmlAttributes = new { @class = "form-control", autocomplete = "off" } })
+                                            <div class="form-text text-muted">
+                                                @Html.ValidationMessageFor(model => model.user_id, "", new { @class = "text-danger" })
+                                                Insert user_id
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="username" class="col-4 control-label text-right">Username</label>
+                                        <div class="col-8">
+                                            @Html.EditorFor(model => model.username, new { htmlAttributes = new { @class = "form-control", autocomplete = "off" } })
+                                            <div class="form-text text-muted">
+                                                @Html.ValidationMessageFor(model => model.username, "", new { @class = "text-danger" })
+                                                Insert Username
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="email" class="col-4 control-label text-right">Email</label>
+                                        <div class="col-8">
+                                            @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control", @type = "email" } })
+                                            <div class="form-text text-muted">
+                                                @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+                                                Insert Email
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group row">
+                                        <label for="password" class="col-4 control-label text-right">Telepon</label>
+                                        <div class="col-8">
+                                            @Html.EditorFor(model => model.telepon, new { htmlAttributes = new { @class = "form-control" } })
+                                            <div class="form-text text-muted">
+                                                @Html.ValidationMessageFor(model => model.telepon, "", new { @class = "text-danger" })
+                                                Insert Telepon
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="email" class="col-4 control-label text-right">Role</label>
+                                        <div class="col-8">
+                                            @Html.DropDownList("role_id", (IEnumerable<SelectListItem>)ViewBag.Roles, new { role_id = "Value", @class = "form-control" })
+                                            
+                                            <div class="form-text text-muted">
+                                                @Html.ValidationMessageFor(model => model.role_id, "", new { @class = "text-danger" })
+                                                Insert Role
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="password" class="col-4 control-label text-right">Password</label>
+                                        <div class="col-8">
+                                            @Html.EditorFor(model => model.password, new { htmlAttributes = new { @class = "form-control", @type = "password" } })
+                                            <div class="form-text text-muted">
+                                                @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
+                                                Insert Password
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-12 text-right">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fa fa-save"></i>
+                                    Create
+                                </button>
+                                <a asp-controller="MasterUsers" asp-action="Index" class="btn btn-default"><i class="fa fa-undo"></i> Cancel</a>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <!-- /.col-md-2 -->
+
+        </div>
+        <!-- /.row -->
+
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content -->
+
+
+

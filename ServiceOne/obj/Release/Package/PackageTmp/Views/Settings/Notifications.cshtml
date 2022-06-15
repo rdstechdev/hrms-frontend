@@ -1,0 +1,341 @@
+﻿@model ServiceOne.ViewModels.Notifications
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Notifications</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Starter Page</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+<!-- Main content -->
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col col-lg-3">
+                @Html.Partial("_SideUserSettings")
+            </div>
+            <div class="col-lg-9">
+                <div class="card">
+                    <div class="card-header">
+                        <ul class="nav nav-tabs align-items-end card-header-tabs w-100">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="#">
+                                    <i class="fas fa-cog mr-2"></i>Notifications
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- /.card-header -->
+
+                    <div class="card-body">
+                        @using (Html.BeginForm("UpdateNotifications", "Settings", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form" }))
+                        {
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <div class="row">
+
+                                <div class="col-sm-12">
+                                    <div class="form-group row">
+                                        <label for="enable_notifications" class="col-4 control-label text-right">Enable push notifications</label>
+                                        <div class="col-8">
+                                            @Html.EditorFor(model => model.enable_notifications, new { htmlAttributes = new { @class = "form-control", autocomplete = "off" } })
+                                            <div class="form-text text-muted">
+                                                @Html.ValidationMessageFor(model => model.enable_notifications, "", new { @class = "text-danger" })
+                                                Insert enable_notifications
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="fcm_key" class="col-4 control-label text-right">Firebase Cloud Messaging Key</label>
+                                        <div class="col-8">
+                                            @Html.EditorFor(model => model.fcm_key, new { htmlAttributes = new { @class = "form-control", autocomplete = "off" } })
+                                            <div class="form-text text-muted">
+                                                @Html.ValidationMessageFor(model => model.fcm_key, "", new { @class = "text-danger" })
+                                                Insert Firebase Cloud Messaging Key ( <a href="https://console.firebase.google.com/">https://console.firebase.google.com/</a> )
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="firebase_api_key" class="col-4 control-label text-right">API Key</label>
+                                        <div class="col-8">
+                                            @Html.EditorFor(model => model.firebase_api_key, new { htmlAttributes = new { @class = "form-control", @placeholder = "AIzaSyFq_Ew_uOkqMdflGKE2y-z3Gch8gzO6MlI" } })
+                                            <div class="form-text text-muted">
+                                                @Html.ValidationMessageFor(model => model.firebase_api_key, "", new { @class = "text-danger" })
+                                                Copy/Past your API Key
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="firebase_auth_domain" class="col-4 control-label text-right">Auth Domain</label>
+                                        <div class="col-8">
+                                            @Html.EditorFor(model => model.firebase_auth_domain, new { htmlAttributes = new { @class = "form-control", @placeholder = "multi-restaurats-55252.firebaseapp.com" } })
+                                            <div class="form-text text-muted">
+                                                @Html.ValidationMessageFor(model => model.firebase_auth_domain, "", new { @class = "text-danger" })
+                                                Copy/Past your Auth Domain
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="firebase_database_url" class="col-4 control-label text-right">Database URL</label>
+                                        <div class="col-8">
+                                            @Html.EditorFor(model => model.firebase_database_url, new { htmlAttributes = new { @class = "form-control", @placeholder = "https://multi-restaurants-1d0c7.firebaseio.com" } })
+                                            <div class="form-text text-muted">
+                                                @Html.ValidationMessageFor(model => model.firebase_database_url, "", new { @class = "text-danger" })
+                                                Copy/Past your Project ID
+                                            </div>
+                                        </div>
+                                    </div>
+                                
+
+                                    <div class="form-group row">
+                                        <label for="firebase_project_id" class="col-4 control-label text-right">Project ID</label>
+                                        <div class="col-8">
+                                            @Html.EditorFor(model => model.firebase_project_id, new { htmlAttributes = new { @class = "form-control", @placeholder = "multi-reants-1d56c7" } })
+                                            <div class="form-text text-muted">
+                                                @Html.ValidationMessageFor(model => model.firebase_project_id, "", new { @class = "text-danger" })
+                                                Copy/Past your Project ID
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="firebase_storage_bucket" class="col-4 control-label text-right">Storage Bucket</label>
+                                        <div class="col-8">
+                                            @Html.EditorFor(model => model.firebase_storage_bucket, new { htmlAttributes = new { @class = "form-control", @placeholder = "muti-restauts-15430c.appspot.com" } })
+                                            <div class="form-text text-muted">
+                                                @Html.ValidationMessageFor(model => model.firebase_storage_bucket, "", new { @class = "text-danger" })
+                                                Copy/Past your Storage Bucket
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="firebase_messaging_sender_id" class="col-4 control-label text-right">Messaging Sender Id</label>
+                                        <div class="col-8">
+                                            @Html.EditorFor(model => model.firebase_messaging_sender_id, new { htmlAttributes = new { @class = "form-control", @placeholder = "1245678655480" } })
+                                            <div class="form-text text-muted">
+                                                @Html.ValidationMessageFor(model => model.firebase_messaging_sender_id, "", new { @class = "text-danger" })
+                                                Copy/Past your Messaging Sender Id
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="firebase_app_id" class="col-4 control-label text-right">Application ID</label>
+                                        <div class="col-8">
+                                            @Html.EditorFor(model => model.firebase_app_id, new { htmlAttributes = new { @class = "form-control", @placeholder = "1:12558874455840:web:e1a1848044786545e4273e" } })
+                                            <div class="form-text text-muted">
+                                                @Html.ValidationMessageFor(model => model.firebase_app_id, "", new { @class = "text-danger" })
+                                                Copy/Past your firebase Application ID
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="firebase_measurement_id" class="col-4 control-label text-right">Measurement Id</label>
+                                        <div class="col-8">
+                                            @Html.EditorFor(model => model.firebase_measurement_id, new { htmlAttributes = new { @class = "form-control", @placeholder = "G-9YJSYFYCCT" } })
+                                            <div class="form-text text-muted">
+                                                @Html.ValidationMessageFor(model => model.firebase_measurement_id, "", new { @class = "text-danger" })
+                                                Copy/Past your Measurement Id
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="form-group col-12 text-right">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fa fa-save"></i>
+                                    Save
+                                </button>
+                                <a asp-controller="Users" asp-action="Index" class="btn btn-default"><i class="fa fa-undo"></i> Cancel</a>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+            <!-- /.col-md-2 -->
+
+        </div>
+        <!-- /.row -->
+
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content -->
+
+<script type="text/javascript">
+    var user_avatar = '';
+    var dz_user_avatar = $(".dropzone.avatar").dropzone({
+        url: "http://localhost/restaurant/public/uploads/store",
+        addRemoveLinks: true,
+        maxFiles: 1,
+        init: function () {
+        },
+        accept: function (file, done) {
+            dzAccept(file, done, this.element, "http://127.0.0.1/restaurant/images/icons");
+        },
+        sending: function (file, xhr, formData) {
+            dzSending(this, file, formData, 'nIj2Rszyfe2L4dbghaFbEQHMtmX9oXDHowl3RVyd');
+        },
+        maxfilesexceeded: function (file) {
+            dz_user_avatar[0].mockFile = '';
+            dzMaxfile(this, file);
+        },
+        complete: function (file) {
+            dzComplete(this, file, user_avatar, dz_user_avatar[0].mockFile);
+            dz_user_avatar[0].mockFile = file;
+        },
+        removedfile: function (file) {
+            dzRemoveFile(
+                file, user_avatar, 'http://localhost/restaurant/public/settings/users/remove-media',
+                'avatar', '1', 'http://localhost/restaurant/public/uplaods/clear', 'nIj2Rszyfe2L4dbghaFbEQHMtmX9oXDHowl3RVyd'
+            );
+        }
+    });
+    dz_user_avatar[0].mockFile = user_avatar;
+    dropzoneFields['avatar'] = dz_user_avatar;
+</script>
+<script type="text/template" data-template="mediaitem">
+    <div class="col-sm-3">
+        <div class="card clickble">
+            <img class="card-img"
+                 src="${src}"
+                 data-name="${file_name}"
+                 data-type="${mime_type}"
+                 data-size="${size}"
+                 data-uuid="${uuid}"
+                 alt="Card image">
+            <div class="card-footer">
+                <small>${name} (${formated_size})</small><br> <small class="text-muted">${updated_at}</small>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/javascript">
+    var triggerButton;
+    var dropzoneIndex = '';
+
+    /**
+    * add selected media to dropzone
+    */
+    function initDropzone(index = '') {
+        console.log("dragggg");
+        var dz = dropzoneFields[index][0];
+        $('#mediaModal .card.clickble').on('click', function () {
+            var img = $(this).find('.card-img');
+            console.log(dz.mockFile);
+            if (dz.mockFile !== '') {
+                dz.dropzone.removeFile(dz.mockFile);
+            }
+            var mockFile = { name: img.data('name'), size: img.data('size'), type: img.data('type'), upload: { uuid: img.data('uuid') } };
+            dz.mockFile = mockFile;
+            dz.dropzone.element.children[0].value = img.data('uuid');
+            dz.dropzone.options.addedfile.call(dz.dropzone, mockFile);
+            dz.dropzone.options.thumbnail.call(dz.dropzone, mockFile, img.attr('src'));
+            dz.dropzone.previewsContainer.lastChild.classList.add('dz-success');
+            dz.dropzone.previewsContainer.lastChild.classList.add('dz-complete');
+            $('#mediaModal').modal('hide');
+        });
+    }
+
+    function initSelectCollection() {
+        var select = $('#selectCollection #collection_name');
+        $.ajax({
+            url: "http://localhost/restaurant/public/uploads/collectionsNames",
+            type: 'GET',
+            success: function (data, status) {
+                const collections = Object.keys(data.data).map(i => data.data[i])
+                collections.forEach(function (coll) {
+                    if (coll.value === dropzoneIndex) {
+                        select.append('<option selected value="' + coll.value + '">' + coll.title + '</option>');
+                        select.val(coll.value).trigger('change');
+                    } else {
+                        select.append('<option value="' + coll.value + '">' + coll.title + '</option>');
+                    }
+                })
+            }
+        });
+    }
+
+    /**
+     * resize buttons
+     * */
+    $('#mediaModal #resizeItems button').on('click', function () {
+        $('#mediaModal #resizeItems button').attr('class', 'btn btn-outline-secondary');
+        $(this).removeClass('btn-outline-secondary').addClass('btn-primary')
+        var size = $(this).data('size');
+        var mediaItems = $('#mediaModal .medias-items')
+            .find('div[class^="col-sm"]')
+            .removeAttr("class")
+            .addClass('col-sm-' + size);
+    });
+
+    /**
+     * load media with ajax
+     */
+    function loadMedia(url) {
+
+        var itemTpl = $('script[data-template="mediaitem"]').text().split(/\$\{(.+?)\}/g);
+        var items = [];
+        var mediaItems = $('#mediaModal .medias-items');
+        $.ajax({
+            url: url,
+            type: 'GET',
+            success: function (data, status) {
+                if (status === 'success') {
+                    data = JSON.parse(data);
+                    data.forEach(function (item) {
+                        items.push({
+                            src: item.thumb,
+                            file_name: item.file_name,
+                            mime_type: item.mime_type,
+                            size: item.size,
+                            formated_size: item.formated_size,
+                            uuid: item.custom_properties.uuid,
+                            name: item.name,
+                            updated_at: item.updated_at,
+                        });
+                    });
+                } else {
+                    mediaItems.find('.card.loader').html('Error please refresh page or use (Ctrl+F5)');
+                }
+            },
+            error: function (data, status, error) {
+                mediaItems.find('.card.loader').html('Error please refresh page or use (Ctrl+F5)');
+            },
+            complete: function (data, status) {
+                if (status === 'success') {
+                    mediaItems.html(items.map(function (item) {
+                        return itemTpl.map(render(item)).join('');
+                    }));
+                    mediaItems.find('.card.loader').remove();
+                    initDropzone(dropzoneIndex);
+                } else {
+                    mediaItems.find('.card.loader').html('Error please refresh page or use (Ctrl+F5)');
+                }
+            }
+        });
+    }
+    $('#mediaModal').on('show.bs.modal', function (event) {
+        triggerButton = $(event.relatedTarget) // Button that triggered the modal
+        dropzoneIndex = triggerButton.data('dropzone'); // Extract info from data-* attributes
+        loadMedia("http://localhost/restaurant/public/uploads/all/" + dropzoneIndex);
+        initSelectCollection();
+    });
+    $('#selectCollection #collection_name').on('change', function () {
+        loadMedia("http://localhost/restaurant/public/uploads/all/" + $(this).val());
+    })
+</script>

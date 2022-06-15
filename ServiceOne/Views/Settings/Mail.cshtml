@@ -1,0 +1,160 @@
+﻿@model ServiceOne.ViewModels.Mail
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Mail</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Starter Page</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+<!-- Main content -->
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col col-lg-3">
+                @Html.Partial("_SideUserSettings")
+            </div>
+            <div class="col-lg-9">
+                <div class="card">
+                    <div class="card-header">
+                        <ul class="nav nav-tabs align-items-end card-header-tabs w-100">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="#">
+                                    <i class="fas fa-cog mr-2"></i>Mail
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- /.card-header -->
+
+                    <div class="card-body">
+                        @using (Html.BeginForm("UpdateMail", "Settings", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form" }))
+                        {
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <div class="row">
+
+                                <div class="col-sm-6">
+                                    <div class="form-group row">
+                                        <label for="mail_driver" class="col-4 control-label text-right">mail_driver</label>
+                                        <div class="col-8">
+                                            @Html.EditorFor(model => model.mail_driver, new { htmlAttributes = new { @class = "form-control", autocomplete = "off" } })
+                                            <div class="form-text text-muted">
+                                                @Html.ValidationMessageFor(model => model.mail_driver, "", new { @class = "text-danger" })
+                                                Insert mail_driver
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="mail_host" class="col-4 control-label text-right">mail_host</label>
+                                        <div class="col-8">
+                                            @Html.EditorFor(model => model.mail_host, new { htmlAttributes = new { @class = "form-control", autocomplete = "off" } })
+                                            <div class="form-text text-muted">
+                                                @Html.ValidationMessageFor(model => model.mail_host, "", new { @class = "text-danger" })
+                                                Insert mail_host
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="mail_port" class="col-4 control-label text-right">mail_port</label>
+                                        <div class="col-8">
+                                            @Html.EditorFor(model => model.mail_port, new { htmlAttributes = new { @class = "form-control", autocomplete = "off" } })
+                                            <div class="form-text text-muted">
+                                                @Html.ValidationMessageFor(model => model.mail_port, "", new { @class = "text-danger" })
+                                                Insert mail_port
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="mail_username" class="col-4 control-label text-right">mail_username</label>
+                                        <div class="col-8">
+                                            @Html.EditorFor(model => model.mail_username, new { htmlAttributes = new { @class = "form-control", @type = "email" } })
+                                            <div class="form-text text-muted">
+                                                @Html.ValidationMessageFor(model => model.mail_username, "", new { @class = "text-danger" })
+                                                Insert mail_username
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+
+                                    <div class="form-group row">
+                                        <label for="mail_password" class="col-4 control-label text-right">mail_password</label>
+                                        <div class="col-8">
+                                            @Html.EditorFor(model => model.mail_password, new { htmlAttributes = new { @class = "form-control", @type = "password" } })
+                                            <div class="form-text text-muted">
+                                                @Html.ValidationMessageFor(model => model.mail_password, "", new { @class = "text-danger" })
+                                                Insert mail_password
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="timezone" class="col-4 control-label text-right">mail_encryption</label>
+                                        <div class="col-8">
+                                            @Html.EditorFor(model => model.mail_encryption, new { htmlAttributes = new { @class = "form-control" } })
+                                            <div class="form-text text-muted">
+                                                @Html.ValidationMessageFor(model => model.mail_encryption, "", new { @class = "text-danger" })
+                                                Insert mail_encryption
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="mail_from_address" class="col-4 control-label text-right">mail_from_address</label>
+                                        <div class="col-8">
+                                            @Html.EditorFor(model => model.mail_from_address, new { htmlAttributes = new { @class = "form-control", @type = "email" } })
+                                            <div class="form-text text-muted">
+                                                @Html.ValidationMessageFor(model => model.mail_from_address, "", new { @class = "text-danger" })
+                                                Insert mail_from_address
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="mail_from_name" class="col-4 control-label text-right">mail_from_name</label>
+                                        <div class="col-8">
+                                            @Html.EditorFor(model => model.mail_from_name, new { htmlAttributes = new { @class = "form-control" } })
+                                            <div class="form-text text-muted">
+                                                @Html.ValidationMessageFor(model => model.mail_from_name, "", new { @class = "text-danger" })
+                                                Insert mail_from_name
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="form-group col-12 text-right">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fa fa-save"></i>
+                                    Save
+                                </button>
+                                <a asp-controller="Users" asp-action="Index" class="btn btn-default"><i class="fa fa-undo"></i> Cancel</a>
+                            </div>
+                        }
+
+
+                    </div>
+                </div>
+            </div>
+            <!-- /.col-md-2 -->
+
+        </div>
+        <!-- /.row -->
+
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content -->
+

@@ -1,0 +1,137 @@
+﻿@model IEnumerable<ServiceOne.Models.LAMPIRAN>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutSurat.cshtml";
+}
+
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Dokumen @ViewBag.BatchNo</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Starter Page</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+<!-- Main content -->
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <ul class="nav nav-tabs align-items-end card-header-tabs w-100">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="#">
+                                    <i class="far fa-file mr-2"></i>List Dokumen
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- /.card-header -->
+
+                    <div class="card-body">
+
+                        <table id="example1" class="table dataTable no-footer dtr-inline collapsed table-responsive">
+                            <thead>
+                                <tr>
+                                    <th width="3%">#</th>
+                                    <th width="3%">File</th>
+                                    <th>File Name</th>
+                                    <th width="10%">Size</th>
+                                    <th width="3%">Preview</th>
+                                    <th width="3%">Download</th>
+                                    <th width="15%">Created at</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                <tr>
+                                    <td>
+                                        #
+                                    </td>
+                                    <td>
+                                        @{
+                                            string extension = Path.GetExtension(item.nama_file);
+                                            string urlFile = "http://localhost:65056/UploadedFiles/" + item.batch_no + "/" + item.nama_file;
+                                            switch (extension.ToLower())
+                                            {
+                                                case ".docx":
+                                                    <img src="~/Content/dist/icons/doc.png" alt="doc" width="30" height="30">
+                                                    break;
+                                                case ".xlsx":
+                                                    <img src="~/Content/dist/icons/xls.png" alt="doc" width="30" height="30">
+                                                    break;
+                                                case ".pdf":
+                                                    <img src="~/Content/dist/icons/pdf.png" alt="doc" width="30" height="30">
+                                                    break;
+                                                case ".jpg":
+                                                    <img src="~/Content/dist/icons/jpg.png" alt="doc" width="30" height="30">
+                                                    break;
+                                                case ".png":
+                                                    <img src="~/Content/dist/icons/png.png" alt="doc" width="30" height="30">
+                                                    break;
+                                                case ".zip":
+                                                    <img src="~/Content/dist/icons/zip.png" alt="doc" width="30" height="30">
+                                                    break;
+                                                default:
+                                                    <i class="far fa-fw fa-file-image text-default img-size-100"></i>
+                                                    break;
+                                            }
+                                        }
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.nama_file)
+                                    </td>
+                                    <td>
+                                        @{
+                                            double? file_size = 0;
+                                            if (item.file_size != null)
+                                            {
+                                                file_size = item.file_size;
+                                                file_size = file_size / 1024;
+                                            }
+
+                                        }
+                                        @Math.Round((double)file_size, 2) Kb
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.preview)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.download)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.created_at)
+                                    </td>
+                                    <td>
+                                        <a href="@Url.Action("Preview", "DMS", new {id = item.id})"><img src="~/Content/dist/icons/preview.png" alt="doc" width="30" height="30" class="mr-3"></a>
+                                        <a href="@Url.Action("Download", "DMS", new {id = item.id})"><img src="~/Content/dist/icons/downloads.png" alt="doc" width="30" height="30"></a>
+                                    </td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- /.col-md-2 -->
+
+        </div>
+        <!-- /.row -->
+
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content -->

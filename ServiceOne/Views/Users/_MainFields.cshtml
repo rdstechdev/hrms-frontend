@@ -1,0 +1,87 @@
+﻿@model ServiceOne.ViewModels.MainFields
+
+@using (Html.BeginForm("MainFields", "Users", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form" }))
+{
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.id)
+    <div class="row">
+        <h5 class="col-12 pb-4">Main Fields</h5>
+        <div class="col-sm-6">
+            <div class="form-group row">
+                <label for="user_id" class="col-4 control-label text-right">User Id</label>
+                <div class="col-8">
+                    @Html.EditorFor(model => model.user_id, new { htmlAttributes = new { @class = "form-control", autocomplete = "off" } })
+                    <div class="form-text text-muted">
+                        @Html.ValidationMessageFor(model => model.user_id, "", new { @class = "text-danger" })
+                        Insert user_id
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="username" class="col-4 control-label text-right">Username</label>
+                <div class="col-8">
+                    @Html.EditorFor(model => model.username, new { htmlAttributes = new { @class = "form-control", autocomplete = "off" } })
+                    <div class="form-text text-muted">
+                        @Html.ValidationMessageFor(model => model.username, "", new { @class = "text-danger" })
+                        Insert Username
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="email" class="col-4 control-label text-right">Email</label>
+                <div class="col-8">
+                    @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control", @type = "email" } })
+                    <div class="form-text text-muted">
+                        @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+                        Insert Email
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="password" class="col-4 control-label text-right">Telepon</label>
+                <div class="col-8">
+                    @Html.EditorFor(model => model.telepon, new { htmlAttributes = new { @class = "form-control" } })
+                    <div class="form-text text-muted">
+                        @Html.ValidationMessageFor(model => model.telepon, "", new { @class = "text-danger" })
+                        Insert Telepon
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <div class="form-group row">
+                <label for="avatar" class="col-4 control-label text-right">Avatar</label>
+                <div class="col-8">
+                    <div style="width: 100%" class="dropzone avatar dz-clickable" id="avatar" data-field="avatar">
+                        <input type="hidden" name="avatar">
+                        <div class="dz-default dz-message"><span>Drop files here to upload</span></div>
+                    </div>
+                    <div class="form-text text-muted w-50">
+                        Upload avatar image
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="role" class="col-4 control-label text-right">Role</label>
+                <div class="col-8">
+                    @Html.DropDownList("role_id", (IEnumerable<SelectListItem>)ViewBag.Roles, new { role_id = "Value", @class = "form-control" })
+                    <div class="form-text text-muted">
+                        @Html.ValidationMessageFor(model => model.role_id, "", new { @class = "text-danger" })
+                        Insert Role
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="form-group col-12 text-right">
+        <button type="submit" class="btn btn-primary">
+            <i class="fa fa-save"></i>
+            Save
+        </button>
+        @*<a asp-controller="MasterUsers" asp-action="Index" class="btn btn-default"><i class="fa fa-undo"></i> Cancel</a>*@
+    </div>
+}

@@ -1,0 +1,216 @@
+﻿@model ServiceOne.Models.SURAT
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutSurat.cshtml";
+}
+
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">Buat Surat</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Starter Page</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+<!-- Main content -->
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <ul class="nav nav-tabs align-items-end card-header-tabs w-100">
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Index", "SuratKeluar")">
+                                    <i class="far fa-paper-plane mr-2"></i>Surat Keluar
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" href="#">
+                                    <i class="fas fa-cog mr-2"></i>Buat Surat
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- /.card-header -->
+
+                    <div class="card-body">
+                        @using (Html.BeginForm("Create", "SuratKeluar", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form" }))
+                        {
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        <div class="col-sm-12">
+                            <div class="form-group row">
+                                <label for="kode_surat" class="col-sm-2 col-form-label">Jenis Surat</label>
+                                <div class="col-10">
+                                    @Html.DropDownList("kode_surat", (IEnumerable<SelectListItem>)ViewBag.Templates, new { kode_surat = "Value", @class = "form-control" })
+                                    <div class="form-text text-muted">
+                                        @Html.ValidationMessageFor(model => model.kode_surat, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="dari" class="col-sm-2 col-form-label">Dari</label>
+                                <div class="col-10">
+                                    <div class="select2-primary">
+                                        <select class="select2" name="list_pengirim" onchange="removeduplicat();" multiple="multiple" data-placeholder="Select a State" data-dropdown-css-class="select2-purple" style="width: 100%;">
+
+                                            @foreach (var item in ViewBag.Pengirim)
+                                            {
+                                                <option value="@item.Value">@item.Text</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="form-text text-muted">
+                                        @Html.ValidationMessageFor(model => model.pengirim, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="penerima" class="col-sm-2 col-form-label">Penerima</label>
+                                <div class="col-10">
+                                    <div class="select2-primary">
+                                        <select class="select2" name="list_penerima" onchange="removeduplicat();" multiple="multiple" data-placeholder="Select a State" data-dropdown-css-class="select2-purple" style="width: 100%;">
+
+                                            @foreach (var item in ViewBag.Penerima)
+                                            {
+                                                <option value="@item.Value">@item.Text</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="form-text text-muted">
+                                        @Html.ValidationMessageFor(model => model.penerima, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            @*<div class="form-group row">
+                                <label for="mengetahui" class="col-sm-2 col-form-label">Mengetahui</label>
+                                <div class="col-10">
+                                    <div class="select2-primary">
+                                        <select class="select2" name="list_mengetahui" onchange="removeduplicat();" multiple="multiple" data-placeholder="Select a State" data-dropdown-css-class="select2-purple" style="width: 100%;">
+
+                                            @foreach (var item in ViewBag.Contacts)
+                                            {
+                                                <option value="@item.Value">@item.Text</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="form-text text-muted">
+                                        @Html.ValidationMessageFor(model => model.mengetahui, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>*@
+                            <div class="form-group row">
+                                <label for="tipe_surat" class="col-sm-2 col-form-label">Prioritas</label>
+                                <div class="col-10">
+                                    @Html.DropDownList("tipe_surat", (IEnumerable<SelectListItem>)ViewBag.Tipe, new { tipe_surat = "Value", @class = "form-control" })
+                                    <div class="form-text text-muted">
+                                        @Html.ValidationMessageFor(model => model.tipe_surat, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="perihal" class="col-sm-2 col-form-label">Perihal</label>
+                                <div class="col-10">
+                                    @Html.EditorFor(model => model.perihal, new { htmlAttributes = new { @class = "form-control" } })
+                                    <div class="form-text text-muted">
+                                        @Html.ValidationMessageFor(model => model.perihal, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group row">
+                                        <label for="tembusan" class="col-sm-4 col-form-label">Tembusan</label>
+                                        <div class="col-8">
+                                            @Html.TextAreaFor(model => model.tembusan, new { @class = "form-control", @rows = "5" })
+                                            <div class="form-text text-muted">
+                                                @Html.ValidationMessageFor(model => model.tembusan, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group row">
+                                        <label for="tembusan" class="col-sm-2 col-form-label">Lampiran</label>
+                                        <div class="col-10">
+                                            <input type="file" id="files" name="files" multiple>
+                                            <div id="selectedFiles"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <label for="body_surat" class="col-sm-2 col-form-label">Body Surat</label>
+                            @Html.TextAreaFor(m => m.body_surat, new { @class = "form-control multi-line", @id = "summernote" })
+                            <hr />
+
+                            <div class="form-group col-12 text-right">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save"></i>
+                                    Save
+                                </button>
+                                <a href="@Url.Action("Index", "SuratKeluar")" class="btn btn-default"><i class="fa fa-undo"></i> Cancel</a>
+                            </div>
+                        }
+
+
+                    </div>
+                </div>
+            </div>
+            <!-- /.col-md-2 -->
+
+        </div>
+        <!-- /.row -->
+
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content -->
+<script>
+  $(function () {
+    // Summernote
+      $('#summernote').summernote({
+          height: 150,
+          tabDisable: true,
+          fontSizes: ['8', '9', '10', '11', '12', '14', '18', '24', '36', '48', '64', '82', '150'],
+          toolbar: [
+              ['pagebreak', ['pagebreak']], // The Button
+              ['style', ['style']],
+              ['font', ['bold', 'italic', 'underline', 'clear']],
+              ['fontSizes', ['8', '9', '10', '11', '12', '14', '18', '24', '36', '48', '64', '82', '150']],
+              ['fontname', ['fontname']],
+              ['fontsize', ['fontsize']],
+              ['color', ['color']],
+              ['para', ['ul', 'ol', 'paragraph']],
+              ['height', ['height']],
+              ['table', ['table']],
+              ['insert', ['media', 'link', 'hr']],
+              ['view', ['fullscreen', 'codeview']],
+              ['help', ['help']],
+          ],
+          onPaste: function (e) {
+              var bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('Text');
+              e.preventDefault();
+              document.execCommand('insertText', false, bufferText);
+          }
+      })
+
+    // CodeMirror
+    CodeMirror.fromTextArea(document.getElementById("codeMirrorDemo"), {
+      mode: "htmlmixed",
+      theme: "monokai"
+    });
+  })
+</script>

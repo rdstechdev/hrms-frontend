@@ -1,0 +1,141 @@
+﻿@model IEnumerable<ServiceOne.Models.SP_TREE_MENU>
+
+@using (Html.BeginForm("Create", "Roles", FormMethod.Post, new { @class = "form", id = "create-edit-form" }))
+{
+    <div class="modal-header">
+        <h4 class="modal-title">@ViewBag.Header @ViewBag.RoleName</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+    </div>
+    <div class="modal-body">
+        <input type="hidden" id="role_id" value="@ViewBag.RoleId" />
+        <div id="treeDocument" class="">
+        </div>
+    </div>
+    <div class="modal-footer">
+        <input id="btn-save" type="button" value="Submit" class="btn btn-default" />
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    </div>
+}
+
+<script>
+
+    $(document).ready(function () {
+
+        fnLoadTreeDocument();
+
+        // Save Group Access
+
+        $("#btn-save").click(function () {
+            //var data = $("#create-edit-form").serialize();
+            var role_id = document.getElementById("role_id").value;
+            var menu = $('#treeDocument').jstree('get_selected', true);
+            var groupdata = [];
+            for (var i = 0; i < menu.length; i++) {
+                groupdata.push({
+                    role_id: role_id,
+                    menu_id: menu[i].id,
+                    parent_id: menu[i].parent,
+                });
+                //console.log(menu[i].id);
+            }
+            console.log(groupdata);
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("SetGroupUser", "Roles", new {role_id = @ViewBag.RoleId})",
+                data: JSON.stringify(groupdata),
+                contentType: "application/json; charset=utf-8"
+            }).done(function (response) {
+                if (response.result.Message == "ValidationError") {
+                    $("#modal-default .modal-content").html(response.partialView);
+                }
+                else {
+                    if (response.result.IsSucceed) {
+                        swal({
+                            title: "Success",
+                            text: response.result.Message,
+                            type: "success"
+                        }).then(function () {
+                            window.location.href = location.protocol + "//" + location.host + "@Url.Action("Index")"
+                        })
+                    }
+                    else {
+                        swal("Failed", response.result.Message, "error");
+                    }
+                }
+            }).fail(function () {
+
+            });
+        });
+    });
+
+    function fnLoadTreeDocument() {
+        //jsTree instance
+        var role_id = document.getElementById("role_id").value;
+        var dataSource = [
+            { id: '1', parent: '#', text: 'Dashboard', type: 'folder' },
+            { id: '2', parent: '#', text: 'OCR Cognitif', type: 'folder' },
+            { id: '3', parent: '#', text: 'Settings', type: 'folder' },
+            { id: '4', parent: '1', text: 'Dashboard 1', type: 'file' },
+            { id: '5', parent: '1', text: 'Dashboard 2', type: 'file' },
+            { id: '6', parent: '2', text: 'Document Classification', type: 'file' },
+            { id: '7', parent: '2', text: 'Batch Bucket', type: 'file' },
+            { id: '8', parent: '3', text: 'Users', type: 'file' },
+            { id: '9', parent: '3', text: 'Menu', type: 'file' },
+            { id: '10', parent: '3', text: 'Group Access', type: 'file' },
+        ];
+        var dataSource1 = [];
+        $.ajax({
+            type: "GET",
+            url: "@Url.Action("Menu", "Roles")",
+            data: { role_id: role_id }
+        }).done(function (data) {
+            var menu = data.jstree;
+            if (menu.length > 0) {
+                for (var i = 0; i < menu.length; i++) {
+                    dataSource1.push({
+                        id: menu[i].id,
+                        parent: menu[i].parent,
+                        text: menu[i].text,
+                        type: menu[i].type,
+                        state: {
+                            opened: true,  // is the node open
+                            disabled: false,  // is the node disabled
+                            selected: menu[i].selected  // is the node selected
+                        },
+                    });
+                    //console.log(menu[i].id);
+                }
+            } else {
+                dataSource1.push({
+                    id: "1",
+                    parent: "#",
+                    text: "Root Menu",
+                    type: "folder"
+                });
+            }
+
+            $('#treeDocument').jstree({
+                "core": {
+                    "data": dataSource1,
+                    "check_callback": true,
+                    "multiple": true,
+                },
+                "types": {
+                    "folder": {
+                        "icon": "far fa fa-folder text-warning"
+                    },
+                    "file": {
+                        "icon": "far fa fa-file text-warning"
+                    }
+                },
+                "plugins": ["wholerow", "checkbox", "types"]
+            }).bind('ready.jstree', function (e, data) {
+                $('#treeDocument').jstree('open_all')
+            })
+
+        }).fail(function (error) {
+            //kondisi jika gagal
+            alert(error.responseText);
+        });
+    };
+</script>

@@ -1,0 +1,95 @@
+﻿@model ServiceOne.Models.MSFIELD
+
+@using (Html.BeginForm("Edit", "MasterFields", FormMethod.Post, new { @class = "form", id = "create-edit-form" }))
+{
+    <div class="modal-header">
+        <h4 class="modal-title">@ViewBag.Header</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+    </div>
+    <div class="modal-body">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.id)
+        <div class="form-group row">
+            <label for="field_key" class="col-2 control-label text-right">Field Key</label>
+            <div class="col-10">
+                @Html.EditorFor(model => model.field_key, new { htmlAttributes = new { @class = "form-control" } })
+                <div class="form-text text-muted">
+                    @Html.ValidationMessageFor(model => model.field_key, "", new { @class = "text-danger" })
+                    Insert role_id
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="field_name" class="col-2 control-label text-right">Field Name</label>
+            <div class="col-10">
+                @Html.EditorFor(model => model.field_name, new { htmlAttributes = new { @class = "form-control" } })
+                <div class="form-text text-muted">
+                    @Html.ValidationMessageFor(model => model.field_name, "", new { @class = "text-danger" })
+                    Insert field_name
+                </div>
+            </div>
+        </div>
+
+
+        <div class="form-group row">
+            <label for="field_value" class="col-2 control-label text-right">Field Value</label>
+            <div class="col-10">
+                @Html.EditorFor(model => model.field_value, new { htmlAttributes = new { @class = "form-control" } })
+                <div class="form-text text-muted">
+                    @Html.ValidationMessageFor(model => model.field_value, "", new { @class = "text-danger" })
+                    Insert field_value
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="username" class="col-2 control-label text-right">Description</label>
+            <div class="col-10">
+                @Html.EditorFor(model => model.description, new { htmlAttributes = new { @class = "form-control" } })
+                <div class="form-text text-muted">
+                    @Html.ValidationMessageFor(model => model.description, "", new { @class = "text-danger" })
+                    Insert description
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <input id="btn-save" type="button" value="Submit" class="btn btn-default" />
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    </div>
+}
+
+<script>
+    $(document).ready(function () {
+        $("#btn-save").click(function () {
+            var data = $("#create-edit-form").serialize();
+            var id = $(this).data("id");
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("Edit", "MasterFields")?id=' + id",
+                data: data
+            }).done(function (response) {
+                if (response.result.Message == "ValidationError") {
+                    $("#modal-default .modal-content").html(response.partialView);
+                }
+                else {
+                    if (response.result.IsSucceed) {
+                        swal({
+                            title: "Success",
+                            text: response.result.Message,
+                            type: "success"
+                        }).then(function () {
+                            window.location.href = location.protocol + "//" + location.host + "@Url.Action("Index")"
+                        })
+                    }
+                    else {
+                        swal("Failed", response.result.Message, "error");
+                    }
+                }
+            }).fail(function () {
+
+            });
+        });
+    });
+</script>
